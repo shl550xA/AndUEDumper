@@ -20,5 +20,6 @@
   "clangd.serverCompletionRanking": true,
   "clangd.detectExtensionConflicts": true,
   "editor.formatOnSave": true,
-  "editor.inlayHints.enabled": "off"
+  "editor.inlayHints.enabled": "off",
+  "cmake.sourceDirectory": "/workspace/AndUEDumper/AndUEDumper"
 }
