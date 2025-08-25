@@ -13,7 +13,6 @@ void KittyCmdln::setUsage(const std::string &usage)
     _usage = usage;
 }
 
-
 cmd_array_t KittyCmdln::getAllCmds() const
 {
     return _cmds;
@@ -54,7 +53,6 @@ void KittyCmdln::addFlag(const std::string &name, const std::string &alias, cons
     });
 }
 
-
 void KittyCmdln::addScanf(const std::string &name, const std::string &alias, const std::string &desc, bool required, const std::string &fmt, void *buffer)
 {
     addCmd(name, alias, desc, required, [this, name, fmt, buffer]()
@@ -72,7 +70,6 @@ void KittyCmdln::addScanf(const std::string &name, const std::string &alias, con
         }
     });
 }
-
 
 bool KittyCmdln::contains(const std::string &name) const
 {
@@ -126,7 +123,8 @@ std::string KittyCmdln::toString() const
 {
     std::stringstream ss;
 
-    ss << _usage << std::endl << std::endl;
+    ss << _usage << std::endl
+       << std::endl;
 
     ss << "Required arguments:" << std::endl;
     for (auto &cmd : _requirdCmds)

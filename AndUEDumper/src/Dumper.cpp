@@ -331,7 +331,7 @@ void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, 
         progressCallback(dumpProgress);
 
     auto excludedObjects = _profile->GetExcludedObjects();
-    
+
     for (UE_UPackage package : packages)
     {
         package.Process();
@@ -354,7 +354,7 @@ void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, 
                     pkgEnums.erase(
                         std::remove_if(pkgEnums.begin(), pkgEnums.end(),
                                        [&excludedObjects](const UE_UPackage::Enum &it)
-                                       { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
+                    { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
                         pkgEnums.end());
                 }
 
@@ -370,7 +370,7 @@ void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, 
                     pkgStructs.erase(
                         std::remove_if(pkgStructs.begin(), pkgStructs.end(),
                                        [&excludedObjects](const UE_UPackage::Struct &it)
-                                       { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
+                    { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
                         pkgStructs.end());
                 }
 
@@ -386,7 +386,7 @@ void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, 
                     pkgClasses.erase(
                         std::remove_if(pkgClasses.begin(), pkgClasses.end(),
                                        [&excludedObjects](const UE_UPackage::Struct &it)
-                                       { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
+                    { return kVECTOR_CONTAINS(excludedObjects, it.FullName); }),
                         pkgClasses.end());
                 }
 

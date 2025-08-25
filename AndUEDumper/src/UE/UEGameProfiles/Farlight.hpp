@@ -105,7 +105,7 @@ public:
         if (!once)
         {
             once = true;
-            offsets.FUObjectArray.ObjObjects += sizeof(void*);
+            offsets.FUObjectArray.ObjObjects += sizeof(void *);
         }
 
         return &offsets;

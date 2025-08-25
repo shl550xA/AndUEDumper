@@ -13,7 +13,10 @@
 #ifndef NDEBUG
 #define LOGD(fmt, ...) printf("D: " fmt "\n", ##__VA_ARGS__)
 #else
-#define LOGD(...) while(false) {}
+#define LOGD(...) \
+    while (false) \
+    {             \
+    }
 #endif
 
 #else
@@ -31,7 +34,10 @@
 #ifndef NDEBUG
 #define LOGD(...) ((void)__android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__))
 #else
-#define LOGD(...) while(false) {}
+#define LOGD(...) \
+    while (false) \
+    {             \
+    }
 #endif
 
 #endif

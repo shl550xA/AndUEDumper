@@ -57,7 +57,7 @@ public:
 
     uintptr_t GetNamesPtr() const override
     {
-        std::string ida_pattern =  "81 80 52 ? ? ? ? ? 81 80 52 ? 03 1F 2A";
+        std::string ida_pattern = "81 80 52 ? ? ? ? ? 81 80 52 ? 03 1F 2A";
         const int step = 0x1f;
 
         PATTERN_MAP_TYPE map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
