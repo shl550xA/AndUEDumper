@@ -47,8 +47,6 @@ public:
 
     virtual bool isUsingCasePreservingName() const = 0;
 
-    virtual bool IsUsingFNamePool() const = 0;
-
     virtual bool isUsingOutlineNumberName() const = 0;
 
     virtual UE_Offsets *GetOffsets() const = 0;
@@ -61,14 +59,7 @@ public:
 
 protected:
     virtual uintptr_t GetGUObjectArrayPtr() const = 0;
-
-    // GNames / NamePoolData
-    virtual uintptr_t GetNamesPtr() const = 0;
-
-    virtual uint8_t *GetNameEntry(int32_t id) const;
-    // can override if decryption is needed
-    virtual std::string GetNameEntryString(uint8_t *entry) const;
-    virtual std::string GetNameByID(int32_t id) const;
+    virtual uintptr_t GetNameToStringPtr() const = 0;
 
     virtual bool isEmulator() const;
 

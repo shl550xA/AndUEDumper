@@ -141,23 +141,11 @@ void UEDumper::DumpExecutableInfo(BufferFmt &logsBufferFmt)
 void UEDumper::DumpNamesInfo(BufferFmt &logsBufferFmt)
 {
     uintptr_t baseAddr = _profile->GetUEVars()->GetBaseAddress();
-    uintptr_t namesPtr = _profile->GetUEVars()->GetNamesPtr();
-
-    if (!_profile->IsUsingFNamePool())
-    {
-        logsBufferFmt.append("GNames: [<Base> + 0x{:X}] = 0x{:X}\n",
-                             namesPtr - baseAddr, namesPtr);
-    }
-    else
-    {
-        logsBufferFmt.append("FNamePool: [<Base> + 0x{:X}] = 0x{:X}\n",
-                             namesPtr - baseAddr, namesPtr);
-    }
 
     logsBufferFmt.append("Test dumping first 5 name entries\n");
     for (int i = 0; i < 5; i++)
     {
-        logsBufferFmt.append("GetNameByID({}): {}\n", i, _profile->GetUEVars()->GetNameByID(i));
+        logsBufferFmt.append("GetNameByID({}): {}\n", i, _profile->GetUEVars()->NameToString(std::bit_cast<uint64_t>((int32_t[2]){i, 0})));
     }
 
     logsBufferFmt.append("==========================\n");

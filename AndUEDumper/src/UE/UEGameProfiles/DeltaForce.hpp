@@ -29,11 +29,6 @@ public:
         return false;
     }
 
-    bool IsUsingFNamePool() const override
-    {
-        return true;
-    }
-
     bool isUsingOutlineNumberName() const override
     {
         return false;
@@ -64,14 +59,9 @@ public:
         return 0;
     }
 
-    uintptr_t GetNamesPtr() const override
+    uintptr_t GetNameToStringPtr() const override
     {
-        PATTERN_MAP_TYPE map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
-
-        std::string ida_pattern = "91 ? 10 81 52 ? ? 21 8b";
-        const int step = -7;
-
-        return Arm64::Decode_ADRP_ADD(findIdaPattern(map_type, ida_pattern, step));
+        return 0;
     }
 
     UE_Offsets *GetOffsets() const override
@@ -82,9 +72,6 @@ public:
         if (!once)
         {
             once = true;
-
-            offsets.FNamePool.BlocksBit = 18;
-            offsets.FNamePool.BlocksOff -= sizeof(void *);
 
             offsets.TUObjectArray.NumElements = sizeof(int32_t);
             offsets.TUObjectArray.Objects = offsets.TUObjectArray.NumElements + (sizeof(int32_t) * 3);
@@ -118,59 +105,5 @@ public:
         }
 
         return &offsets;
-    }
-
-    std::string GetNameEntryString(uint8_t *entry) const override
-    {
-        std::string name = IGameProfile::GetNameEntryString(entry);
-
-        auto dec_ansi = [](char *str, uint32_t len)
-        {
-            if (!str || !*str || len == 0) return;
-
-            uint32_t key = 0;
-            switch (len % 9)
-            {
-            case 0u:
-                key = ((len & 0x1F) + len);
-                break;
-            case 1u:
-                key = ((len ^ 0xDF) + len);
-                break;
-            case 2u:
-                key = ((len | 0xCF) + len);
-                break;
-            case 3u:
-                key = (33 * len);
-                break;
-            case 4u:
-                key = (len + (len >> 2));
-                break;
-            case 5u:
-                key = (3 * len + 5);
-                break;
-            case 6u:
-                key = (((4 * len) | 5) + len);
-                break;
-            case 7u:
-                key = (((len >> 4) | 7) + len);
-                break;
-            case 8u:
-                key = ((len ^ 0xC) + len);
-                break;
-            default:
-                key = ((len ^ 0x40) + len);
-                break;
-            }
-
-            for (uint32_t i = 0; i < len; i++)
-            {
-                str[i] = (key & 0x80) ^ ~str[i];
-            }
-        };
-
-        dec_ansi(name.data(), uint32_t(name.length()));
-
-        return name;
     }
 };

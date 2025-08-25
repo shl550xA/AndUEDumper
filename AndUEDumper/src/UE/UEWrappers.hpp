@@ -123,7 +123,6 @@ protected:
 public:
     UE_FName(uint8_t *object) : object(object) {}
     UE_FName() : object(nullptr) {}
-    int GetNumber() const;
     std::string GetName() const;
 };
 

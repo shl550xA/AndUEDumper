@@ -1,6 +1,7 @@
 #include "UEOffsets.hpp"
 
 #include <ostream>
+#include <ranges>
 #include <sstream>
 #include <unordered_map>
 
@@ -28,7 +29,6 @@ std::string UE_Offsets::ToString() const
         kOUT_NS_BEGIN(Config);
         {
             kOUT_NS_MEMBER_B(Config, isUsingCasePreservingName);
-            kOUT_NS_MEMBER_B(Config, IsUsingFNamePool);
             kOUT_NS_MEMBER_B(Config, isUsingOutlineNumberName);
             kOUT_NS_END();
             kOUT_NEWLINE();
@@ -37,37 +37,7 @@ std::string UE_Offsets::ToString() const
 
         kOUT_NS_BEGIN(FName);
         {
-            kOUT_NS_MEMBER_P(FName, ComparisonIndex);
-            kOUT_NS_MEMBER_P(FName, Number);
-            kOUT_NS_MEMBER_P(FName, DisplayIndex);
             kOUT_NS_MEMBER_P(FName, Size);
-            kOUT_NS_END();
-            kOUT_NEWLINE();
-            kOUT_NEWLINE();
-        }
-
-        kOUT_NS_BEGIN(FNameEntry);
-        {
-            kOUT_NS_MEMBER_P(FNameEntry, Index);
-            kOUT_NS_MEMBER_P(FNameEntry, Name);
-            kOUT_NS_END();
-            kOUT_NEWLINE();
-            kOUT_NEWLINE();
-        }
-
-        kOUT_NS_BEGIN(FNamePool);
-        {
-            kOUT_NS_MEMBER_I(FNamePool, Stride);
-            kOUT_NS_MEMBER_I(FNamePool, BlocksBit);
-            kOUT_NS_MEMBER_P(FNamePool, BlocksOff);
-            kOUT_NS_END();
-            kOUT_NEWLINE();
-            kOUT_NEWLINE();
-        }
-
-        kOUT_NS_BEGIN(FNamePoolEntry);
-        {
-            kOUT_NS_MEMBER_P(FNamePoolEntry, Header);
             kOUT_NS_END();
             kOUT_NEWLINE();
             kOUT_NEWLINE();
@@ -220,19 +190,9 @@ namespace UE_DefaultOffsets
             once = true;
 
             offsets.Config.isUsingCasePreservingName = bWITH_CASE_PRESERVING_NAME;
-            offsets.Config.IsUsingFNamePool = false;
             offsets.Config.isUsingOutlineNumberName = false;
 
-            offsets.FName.ComparisonIndex = 0;
-            offsets.FName.DisplayIndex = bWITH_CASE_PRESERVING_NAME ? 4 : 0;
-            // WITH_CASE_PRESERVING_NAME adds DisplayIndex in FName
-            offsets.FName.Number = offsets.FName.DisplayIndex + sizeof(int32_t);
             offsets.FName.Size = kGetFNameSize(bWITH_CASE_PRESERVING_NAME, false);
-
-            offsets.FNameEntry.Index = 0;
-            offsets.FNameEntry.Name = GetPtrAlignedOf(sizeof(void *) + sizeof(int32_t));
-            offsets.FNameEntry.GetIsWide = [](int32_t index)
-            { return (index & 1) != 0; };
 
             offsets.FUObjectArray.ObjObjects = sizeof(int32_t) * 4;
 
@@ -324,9 +284,6 @@ namespace UE_DefaultOffsets
         {
             once = true;
 
-            offsets.FNameEntry.Index = sizeof(void *);
-            offsets.FNameEntry.Name = sizeof(void *) + sizeof(int32_t);
-
             offsets.UStruct.SuperStruct = offsets.UField.Next + (sizeof(void *) * 3);  // sizeof(UField) + sizeof(FStructBaseChain)
             offsets.UStruct.Children = offsets.UStruct.SuperStruct + sizeof(void *);   // UField*
             offsets.UStruct.PropertiesSize = offsets.UStruct.Children + sizeof(void *);
@@ -354,41 +311,9 @@ namespace UE_DefaultOffsets
             once = true;
 
             offsets.Config.isUsingCasePreservingName = bWITH_CASE_PRESERVING_NAME;
-            offsets.Config.IsUsingFNamePool = true;
             offsets.Config.isUsingOutlineNumberName = false;
 
-            offsets.FName.ComparisonIndex = 0;
-            offsets.FName.DisplayIndex = bWITH_CASE_PRESERVING_NAME ? 4 : 0;
-            // WITH_CASE_PRESERVING_NAME adds DisplayIndex in FName
-            offsets.FName.Number = offsets.FName.DisplayIndex + sizeof(int32_t);
             offsets.FName.Size = kGetFNameSize(bWITH_CASE_PRESERVING_NAME, false);
-
-            offsets.FNamePool.Stride = bWITH_CASE_PRESERVING_NAME ? 4 : 2;  // alignof(FNameEntry)
-
-            // Blocks bit is 16 for most games
-            // ((id >> 13) & 0x7FFF8) = 16
-            // ((id >> 15) & 0x1FFF8) = 18
-            offsets.FNamePool.BlocksBit = 16;
-
-            // offset to blocks, usually ios at 0xD0 and android at 0x40
-#ifdef __APPLE__
-            offsets.FNamePool.BlocksOff = 0xD0;
-#else
-#ifdef __LP64__
-            offsets.FNamePool.BlocksOff = 0x40;
-#else
-            offsets.FNamePool.BlocksOff = 0x30;
-#endif
-#endif
-
-            offsets.FNamePoolEntry.Header = bWITH_CASE_PRESERVING_NAME ? 4 : 0;  // Offset to name entry header
-            offsets.FNamePoolEntry.GetIsWide = [](uint16_t header)
-            { return (header & 1) != 0; };
-            // usually if stride is 2 then header >> 6 and if 4 then haeder >> 1
-            offsets.FNamePoolEntry.GetLength = [bWITH_CASE_PRESERVING_NAME](uint16_t header) -> size_t
-            {
-                return bWITH_CASE_PRESERVING_NAME ? header >> 1 : header >> 6;
-            };
 
             offsets.FUObjectArray.ObjObjects = sizeof(int32_t) * 4;
 
@@ -472,39 +397,9 @@ namespace UE_DefaultOffsets
             once = true;
 
             offsets.Config.isUsingCasePreservingName = bWITH_CASE_PRESERVING_NAME;
-            offsets.Config.IsUsingFNamePool = true;
             offsets.Config.isUsingOutlineNumberName = bFNAME_OUTLINE_NUMBER;
 
-            offsets.FName.ComparisonIndex = 0;
-            offsets.FName.Number = bFNAME_OUTLINE_NUMBER ? 0 : 4;
-            offsets.FName.DisplayIndex = bWITH_CASE_PRESERVING_NAME ? (offsets.FName.Number + sizeof(int32_t)) : 0;
             offsets.FName.Size = kGetFNameSize(bWITH_CASE_PRESERVING_NAME, bFNAME_OUTLINE_NUMBER);
-
-            offsets.FNamePool.Stride = bWITH_CASE_PRESERVING_NAME ? 4 : 2;  // alignof(FNameEntry)
-            // Blocks bit is 16 for most games
-            // ((id >> 13) & 0x7FFF8) = 16
-            // ((id >> 15) & 0x1FFF8) = 18
-            offsets.FNamePool.BlocksBit = 16;
-
-            // offset to blocks, usually ios at 0xD0 and android at 0x40
-#ifdef __APPLE__
-            offsets.FNamePool.BlocksOff = 0xD0;
-#else
-#ifdef __LP64__
-            offsets.FNamePool.BlocksOff = 0x40;
-#else
-            offsets.FNamePool.BlocksOff = 0x30;
-#endif
-#endif
-
-            offsets.FNamePoolEntry.Header = bWITH_CASE_PRESERVING_NAME ? 4 : 0;  // Offset to name entry header
-            offsets.FNamePoolEntry.GetIsWide = [](uint16_t header)
-            { return (header & 1) != 0; };
-            // usually if stride is 2 then header >> 6 and if 4 then haeder >> 1
-            offsets.FNamePoolEntry.GetLength = [bWITH_CASE_PRESERVING_NAME](uint16_t header) -> size_t
-            {
-                return bWITH_CASE_PRESERVING_NAME ? header >> 1 : header >> 6;
-            };
 
             offsets.FUObjectArray.ObjObjects = sizeof(int32_t) * 4;
 
@@ -571,18 +466,34 @@ namespace UE_DefaultOffsets
     }
 }  // namespace UE_DefaultOffsets
 
-std::string UEVars::GetNameByID(int32_t id) const
+std::string UEVars::NameToString(uint64_t name) const
 {
-    static std::unordered_map<int32_t, std::string> namesCachedMap;
-    if (namesCachedMap.count(id) > 0)
-        return namesCachedMap[id];
+    static std::unordered_map<uint64_t, std::string> namesCachedMap;
+    if (namesCachedMap.count(name) > 0)
+        return namesCachedMap[name];
 
-    std::string name = pGetNameByID ? pGetNameByID(id) : "pGetNameByID_IS_NULL";
-    if (!name.empty())
+    struct string
     {
-        namesCachedMap[id] = name;
+        char16_t *data;
+        int32_t count, max;
+
+        ~string() {}
+
+        auto begin() { return data; }
+        auto end() { return data + count; }
+    };
+
+    using std::ranges::views::filter, std::ranges::views::transform;
+    auto not_zero = [](auto c)
+    { return c != (decltype(c)){}; };
+    auto to_char = [](auto c)
+    { return (char)c; };
+    std::string result{std::from_range, ((string(*)(uint64_t))NameToStringPtr)(name) | filter(not_zero) | transform(to_char)};
+    if (!result.empty())
+    {
+        namesCachedMap[name] = result;
     }
-    return name;
+    return result;
 }
 
 std::string UEVars::InitStatusToStr(UEVarsInitStatus s)

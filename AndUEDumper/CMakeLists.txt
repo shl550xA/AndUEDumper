@@ -8,8 +8,8 @@ file(GLOB KITTYMEMORY_SRC ${KITTYMEMORY_PATH}/*.cpp)
 
 set(DEPS_PATH ../deps)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g -std=c++20 -fexceptions -DDEBUG -DkNO_KEYSTONE")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -s -std=c++20 -fexceptions -DNDEBUG -DkNO_KEYSTONE")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -O0 -g -std=c++23 -fexceptions -DDEBUG -DkNO_KEYSTONE")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O2 -s -std=c++23 -fexceptions -DNDEBUG -DkNO_KEYSTONE")
 
 file(GLOB UE_SRC src/UE/*.cpp)
 file(GLOB UTILS_SRC src/Utils/*.cpp)

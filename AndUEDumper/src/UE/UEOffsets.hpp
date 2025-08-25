@@ -16,34 +16,12 @@ struct UE_Offsets
     struct
     {
         bool isUsingCasePreservingName = false;
-        bool IsUsingFNamePool = false;
         bool isUsingOutlineNumberName = false;
     } Config;
     struct
     {
-        uintptr_t ComparisonIndex = 0;
-        uintptr_t DisplayIndex = 0;
-        uintptr_t Number = 0;
         uintptr_t Size = 0;
     } FName;
-    struct
-    {
-        uintptr_t Index = 0;
-        uintptr_t Name = 0;
-        std::function<bool(int32_t)> GetIsWide = nullptr;
-    } FNameEntry;
-    struct
-    {
-        uintptr_t Stride = 0;
-        uintptr_t BlocksBit = 0;
-        uintptr_t BlocksOff = 0;
-    } FNamePool;
-    struct
-    {
-        uintptr_t Header = 0;
-        std::function<bool(uint16_t)> GetIsWide = nullptr;
-        std::function<size_t(uint16_t)> GetLength = nullptr;
-    } FNamePoolEntry;
     struct
     {
         uintptr_t ObjObjects = 0;
@@ -194,33 +172,31 @@ struct UEVars
 
 protected:
     uintptr_t BaseAddress;
-    uintptr_t NamesPtr;
     uintptr_t GUObjectsArrayPtr;
+    uintptr_t NameToStringPtr;
     uintptr_t ObjObjectsPtr;
     uintptr_t ObjObjects_Objects;
 
     UE_Offsets *Offsets;
 
-    std::function<std::string(int32_t)> pGetNameByID;
-
 public:
-    UEVars() : BaseAddress(0), NamesPtr(0), GUObjectsArrayPtr(0), ObjObjectsPtr(0), ObjObjects_Objects(0), Offsets(nullptr), pGetNameByID(nullptr)
+    UEVars() : BaseAddress(0), NameToStringPtr(0), GUObjectsArrayPtr(0), ObjObjectsPtr(0), ObjObjects_Objects(0), Offsets(nullptr)
     {
     }
 
-    UEVars(uintptr_t base, uintptr_t names, uintptr_t objectArray, uintptr_t objObjects, uintptr_t objects, UE_Offsets *offsets, const std::function<std::string(int32_t)> &pGetNameByID) : BaseAddress(base), NamesPtr(names), GUObjectsArrayPtr(objectArray), ObjObjectsPtr(objObjects), ObjObjects_Objects(objects), Offsets(offsets), pGetNameByID(pGetNameByID)
+    UEVars(uintptr_t base, uintptr_t names, uintptr_t objectArray, uintptr_t objObjects, uintptr_t objects, UE_Offsets *offsets) : BaseAddress(base), NameToStringPtr(names), GUObjectsArrayPtr(objectArray), ObjObjectsPtr(objObjects), ObjObjects_Objects(objects), Offsets(offsets)
     {
     }
 
     uintptr_t GetBaseAddress() const { return BaseAddress; };
-    uintptr_t GetNamesPtr() const { return NamesPtr; };
+    uintptr_t GetNamesPtr() const { return NameToStringPtr; };
     uintptr_t GetGUObjectsArrayPtr() const { return GUObjectsArrayPtr; };
     uintptr_t GetObjObjectsPtr() const { return ObjObjectsPtr; };
     uintptr_t GetObjObjects_Objects() const { return ObjObjects_Objects; };
 
     UE_Offsets *GetOffsets() const { return Offsets; };
 
-    std::string GetNameByID(int32_t id) const;
+    std::string NameToString(uint64_t name) const;
 
     static std::string InitStatusToStr(UEVarsInitStatus s);
 };

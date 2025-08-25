@@ -28,7 +28,7 @@ namespace UEWrappers
     UEVars const *GetUEVars() { return GUVars; }
     uintptr_t GetBaseAddress() { return GUVars ? GUVars->GetBaseAddress() : 0; }
     UE_Offsets *GetOffsets() { return GUVars ? GUVars->GetOffsets() : nullptr; }
-    std::string GetNameByID(int32_t id) { return GUVars ? GUVars->GetNameByID(id) : ""; }
+    std::string NameToString(uint64_t name) { return GUVars ? GUVars->NameToString(name) : ""; }
     UE_UObjectArray *GetObjects() { return pObjectsArray.get(); }
 }  // namespace UEWrappers
 
@@ -112,45 +112,28 @@ bool UE_UObjectArray::IsObject(const UE_UObject &address) const
     return false;
 }
 
-int UE_FName::GetNumber() const
-{
-    if (!object || UEWrappers::GetOffsets()->Config.isUsingOutlineNumberName)
-        return 0;
-
-    return vm_rpm_ptr<int32_t>(object + UEWrappers::GetOffsets()->FName.Number);
-}
-
 std::string UE_FName::GetName() const
 {
     if (!object) return "None";
 
-    uintptr_t nameID_offset = UEWrappers::GetOffsets()->FName.ComparisonIndex;
+    uintptr_t size = UEWrappers::GetOffsets()->FName.Size;
     // if (UEWrappers::GetOffsets()->isUsingCasePreservingName)
     //   nameID_offset = UEWrappers::GetOffsets()->FName.DisplayIndex;
 
-    int32_t index = 0;
-    if (!vm_rpm_ptr(object + nameID_offset, &index, sizeof(int32_t)) || index < 0)
+    uint64_t name = 0;
+    if (size != 8 || !vm_rpm_ptr(object, &name, size) || name == 0)
         return "None";
 
-    std::string name = UEWrappers::GetNameByID(index);
-    if (name.empty()) return "None";
+    std::string result = UEWrappers::NameToString(name);
+    if (result.empty()) return "None";
 
-    if (!UEWrappers::GetOffsets()->Config.isUsingOutlineNumberName)
-    {
-        int32_t number = GetNumber();
-        if (number > 0)
-        {
-            name += '_' + std::to_string(number - 1);
-        }
-    }
-
-    auto pos = name.rfind('/');
+    auto pos = result.rfind('/');
     if (pos != std::string::npos)
     {
-        name = name.substr(pos + 1);
+        result = result.substr(pos + 1);
     }
 
-    return name;
+    return result;
 }
 
 EObjectFlags UE_UObject::GetFlags() const
