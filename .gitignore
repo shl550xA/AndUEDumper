@@ -2,8 +2,6 @@
 
 .cache/
 
-.vscode/
-
 build/
 libs/
 obj/

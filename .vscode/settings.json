@@ -1,0 +1,24 @@
+{
+  "cmake.additionalKits": [
+    "${workspaceFolder}/.vscode/cmake_android_ndk_kit.json"
+  ],
+  "cmake.configureOnOpen": true,
+  "cmake.cmakePath": "${env:ANDROID_SDK_ROOT}/cmake/${env:ANDROID_CMAKE_VERSION}/bin/cmake",
+  "cmake.configureSettings": {
+    "CMAKE_MAKE_PROGRAM": "${env:ANDROID_SDK_ROOT}/cmake/${env:ANDROID_CMAKE_VERSION}/bin/ninja",
+    "ANDROID_NDK": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}",
+    "ANDROID_PLATFORM": "android-28",
+    "CMAKE_ANDROID_NDK": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}",
+    "CMAKE_SYSTEM_NAME": "Android",
+    "CMAKE_SYSTEM_VERSION": 28,
+  },
+  "cmake.generator": "Ninja",
+  "cmake.options.statusBarVisibility": "visible",
+  "clangd.path": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}/toolchains/llvm/prebuilt/linux-x86_64/bin/clangd",
+  "clangd.checkUpdates": false,
+  "clangd.restartAfterCrash": true,
+  "clangd.serverCompletionRanking": true,
+  "clangd.detectExtensionConflicts": true,
+  "editor.formatOnSave": true,
+  "editor.inlayHints.enabled": "off"
+}

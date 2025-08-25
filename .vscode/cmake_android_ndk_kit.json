@@ -1,0 +1,10 @@
+[
+  {
+    "name": "NDK",
+    "compilers": {
+      "C": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+      "CXX": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++"
+    },
+    "toolchainFile": "${env:ANDROID_NDK_ROOT}/${env:ANDROID_NDK_VERSION}/build/cmake/android.toolchain.cmake"
+  }
+]
