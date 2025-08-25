@@ -19,64 +19,14 @@
 #include "UE/UEGameProfile.hpp"
 
 #include "UE/UEGameProfiles/ArenaBreakout.hpp"
-#include "UE/UEGameProfiles/BlackClover.hpp"
-#include "UE/UEGameProfiles/Dislyte.hpp"
-#include "UE/UEGameProfiles/Farlight.hpp"
-#include "UE/UEGameProfiles/MortalKombat.hpp"
-#include "UE/UEGameProfiles/PES.hpp"
-#include "UE/UEGameProfiles/Torchlight.hpp"
-#include "UE/UEGameProfiles/WutheringWaves.hpp"
-#include "UE/UEGameProfiles/RealBoxing2.hpp"
-#include "UE/UEGameProfiles/OdinValhalla.hpp"
-#include "UE/UEGameProfiles/Injustice2.hpp"
 #include "UE/UEGameProfiles/DeltaForce.hpp"
-#include "UE/UEGameProfiles/RooftopsParkour.hpp"
-#include "UE/UEGameProfiles/BabyYellow.hpp"
-#include "UE/UEGameProfiles/TowerFantasy.hpp"
-#include "UE/UEGameProfiles/BladeSoul.hpp"
-#include "UE/UEGameProfiles/Lineage2.hpp"
-#include "UE/UEGameProfiles/NightCrows.hpp"
-#include "UE/UEGameProfiles/Case2.hpp"
-#include "UE/UEGameProfiles/KingArthur.hpp"
-#include "UE/UEGameProfiles/Century.hpp"
-#include "UE/UEGameProfiles/HelloNeighbor.hpp"
-#include "UE/UEGameProfiles/HelloNeighborND.hpp"
-#include "UE/UEGameProfiles/SFG2.hpp"
-#include "UE/UEGameProfiles/ArkUltimate.hpp"
-#include "UE/UEGameProfiles/Auroria.hpp"
-#include "UE/UEGameProfiles/LineageW.hpp"
-#include "UE/UEGameProfiles/RLSideswipe.hpp"
+#include "UE/UEGameProfiles/Farlight.hpp"
 #include "UE/UEGameProfiles/PUBG.hpp"
 
 std::vector<IGameProfile *> UE_Games = {
-    new PESProfile(),
-    new DislyteProfile(),
-    new MortalKombatProfile(),
-    new FarlightProfile(),
-    new TorchlightProfile(),
     new ArenaBreakoutProfile(),
-    new BlackCloverProfile(),
-    new WutheringWavesProfile(),
-    new RealBoxing2Profile(),
-    new OdinValhallaProfile(),
-    new Injustice2Profile(),
     new DeltaForceProfile(),
-    new RooftopParkourProfile(),
-    new BabyYellowProfile(),
-    new TowerFantasyProfile(),
-    new BladeSoulProfile(),
-    new Lineage2Profile(),
-    new Case2Profile(),
-    new CenturyProfile(),
-    new KingArthurProfile(),
-    new NightCrowsProfile(),
-    new HelloNeighborProfile(),
-    new HelloNeighborNDProfile(),
-    new SFG2Profile(),
-    new ArkUltimateProfile(),
-    new AuroriaProfile(),
-    new LineageWProfile(),
-    new RLSideswipeProfile(),
+    new FarlightProfile(),
     new PUBGProfile(),
 };
 
@@ -313,7 +263,7 @@ int main(int argc, char **args)
                 LOGI("Dumping unreal lib from memory...");
                 std::string libDumpPath = KittyUtils::String::Fmt("%s/libUE_%p-%p.so", sDumpGameDir.c_str(), ue_elf.base(), ue_elf.end());
                 bool res = kMgr.dumpMemELF(ue_elf, libDumpPath);
-                LOGI("Dumping lib: %s.",  res ? "success" : "failed");
+                LOGI("Dumping lib: %s.", res ? "success" : "failed");
                 if (res)
                 {
                     LOGI("%s", libDumpPath.c_str());
