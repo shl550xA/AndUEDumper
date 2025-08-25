@@ -57,24 +57,28 @@ bool UEDumper::Dump(std::unordered_map<std::string, BufferFmt> *outBuffersMap)
     outBuffersMap->insert({"Logs.txt", BufferFmt()});
     BufferFmt &logsBufferFmt = outBuffersMap->at("Logs.txt");
 
+    if (_dumpExeInfo)
     {
         if (_dumpExeInfoNotify) _dumpExeInfoNotify(false);
         DumpExecutableInfo(logsBufferFmt);
         if (_dumpExeInfoNotify) _dumpExeInfoNotify(true);
     }
 
+    if (_dumpNamesInfo)
     {
         if (_dumpNamesInfoNotify) _dumpNamesInfoNotify(false);
         DumpNamesInfo(logsBufferFmt);
         if (_dumpNamesInfoNotify) _dumpNamesInfoNotify(true);
     }
 
+    if (_dumpObjectsInfo)
     {
         if (_dumpObjectsInfoNotify) _dumpObjectsInfoNotify(false);
         DumpObjectsInfo(logsBufferFmt);
         if (_dumpObjectsInfoNotify) _dumpObjectsInfoNotify(true);
     }
 
+    if (_dumpOffsetsInfo)
     {
         if (_dumpOffsetsInfoNotify) _dumpOffsetsInfoNotify(false);
         outBuffersMap->insert({"Offsets.hpp", BufferFmt()});

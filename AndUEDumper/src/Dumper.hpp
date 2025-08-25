@@ -18,9 +18,13 @@ class UEDumper
 {
     IGameProfile const *_profile;
     std::string _lastError;
+    bool _dumpExeInfo = true;
     std::function<void(bool)> _dumpExeInfoNotify;
+    bool _dumpNamesInfo = true;
     std::function<void(bool)> _dumpNamesInfoNotify;
+    bool _dumpObjectsInfo = true;
     std::function<void(bool)> _dumpObjectsInfoNotify;
+    bool _dumpOffsetsInfo = true;
     std::function<void(bool)> _dumpOffsetsInfoNotify;
     ProgressCallback _objectsProgressCallback;
     ProgressCallback _dumpProgressCallback;
@@ -36,9 +40,13 @@ public:
 
     std::string GetLastError() const { return _lastError; }
 
+    void setDumpExeInfo(bool x) { _dumpExeInfo = x; }
     inline void setDumpExeInfoNotify(const std::function<void(bool)> &f) { _dumpExeInfoNotify = f; }
+    void setDumpNamesInfo(bool x) { _dumpNamesInfo = x; }
     inline void setDumpNamesInfoNotify(const std::function<void(bool)> &f) { _dumpNamesInfoNotify = f; }
+    void setDumpObjectsInfo(bool x) { _dumpObjectsInfo = x; }
     inline void setDumpObjectsInfoNotify(const std::function<void(bool)> &f) { _dumpObjectsInfoNotify = f; }
+    void setDumpOffsetsInfo(bool x) { _dumpOffsetsInfo = x; }
     inline void setDumpOffsetsInfoNotify(const std::function<void(bool)> &f) { _dumpOffsetsInfoNotify = f; }
 
     inline void setObjectsProgressCallback(const ProgressCallback &f) { _objectsProgressCallback = f; }
