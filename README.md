@@ -17,35 +17,10 @@ project.
 
 ## Currently Supported Games
 
-* Arena Breakout
-* Ark Ultimate
-* Auroria
-* Black Clover M
-* Blade Soul Revolution
-* Case 2 Animatronics
-* Century Age of Ashes
-* Delta Force
-* Dislyte
-* Farlight 84
-* Hello Neighbor
-* Hello Neighbor Nicky's Diaries
-* Injustice 2
-* King Arthur Legends Rise
-* Lineage 2 Revolution
-* Lineage W
-* Mortal Kombat
-* Night Crows
-* Odin Valhalla Rising
-* PUBG
-* RL Sideswipe
-* Real Boxing 2
-* Rooftops Parkour Pro
-* Special Forces Group 2
-* The Baby In Yellow
-* Torchlight: Infinite
-* Tower Of Fantasy
-* Wuthering Waves
-* eFootball (PES)
+* Arena Breakout Mobile
+* Delta Force Mobile
+* Farlight 84 Mobile
+* PUBG Mobile
 
 ## Library Usage
 
