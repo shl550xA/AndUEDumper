@@ -129,7 +129,7 @@ void UEDumper::DumpExecutableInfo(BufferFmt &logsBufferFmt)
 {
     auto ue_elf = _profile->GetUnrealELF();
     logsBufferFmt.append("e_machine: 0x{:X}\n", ue_elf.header().e_machine);
-    logsBufferFmt.append("Library: {}\n", ue_elf.filePath().c_str());
+    logsBufferFmt.append("Library: {}\n", ue_elf.realPath().c_str());
     logsBufferFmt.append("BaseAddress: 0x{:X}\n", ue_elf.base());
 
     for (const auto &it : ue_elf.segments())
