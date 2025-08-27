@@ -8,7 +8,6 @@
 #include <thread>
 
 #include "Utils/Logger.hpp"
-#include "Utils/ProgressUtils.hpp"
 
 #include "Dumper.hpp"
 
@@ -121,26 +120,6 @@ void dump_thread(bool bDumpLib)
         {
             LOGI("Dumping Offsets Info...");
         }
-    });
-
-    uEDumper.setObjectsProgressCallback([](const SimpleProgressBar &progress)
-    {
-        static bool once = false;
-        if (!once)
-        {
-            once = true;
-            LOGI("Gathering UObjects....");
-        };
-    });
-
-    uEDumper.setDumpProgressCallback([](const SimpleProgressBar &progress)
-    {
-        static bool once = false;
-        if (!once)
-        {
-            once = true;
-            LOGI("Dumping....");
-        };
     });
 
     bool dumpSuccess = false;

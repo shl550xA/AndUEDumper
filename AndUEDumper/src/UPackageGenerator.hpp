@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "Utils/BufferFmt.hpp"
-#include "Utils/ProgressUtils.hpp"
 
 #include "UE/UEWrappers.hpp"
 

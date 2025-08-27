@@ -9,9 +9,7 @@
 #include "UE/UEWrappers.hpp"
 
 #include "Utils/BufferFmt.hpp"
-#include "Utils/ProgressUtils.hpp"
 
-using ProgressCallback = std::function<void(const SimpleProgressBar &)>;
 using UEPackagesArray = std::vector<std::pair<uint8_t *const, std::vector<UE_UObject>>>;
 
 class UEDumper
@@ -26,11 +24,9 @@ class UEDumper
     std::function<void(bool)> _dumpObjectsInfoNotify;
     bool _dumpOffsetsInfo = true;
     std::function<void(bool)> _dumpOffsetsInfoNotify;
-    ProgressCallback _objectsProgressCallback;
-    ProgressCallback _dumpProgressCallback;
 
 public:
-    UEDumper() : _profile(nullptr), _dumpExeInfoNotify(nullptr), _dumpNamesInfoNotify(nullptr), _dumpObjectsInfoNotify(nullptr), _objectsProgressCallback(nullptr), _dumpProgressCallback(nullptr) {}
+    UEDumper() : _profile(nullptr), _dumpExeInfoNotify(nullptr), _dumpNamesInfoNotify(nullptr), _dumpObjectsInfoNotify(nullptr) {}
 
     bool Init(IGameProfile *profile);
 
@@ -49,9 +45,6 @@ public:
     void setDumpOffsetsInfo(bool x) { _dumpOffsetsInfo = x; }
     inline void setDumpOffsetsInfoNotify(const std::function<void(bool)> &f) { _dumpOffsetsInfoNotify = f; }
 
-    inline void setObjectsProgressCallback(const ProgressCallback &f) { _objectsProgressCallback = f; }
-    inline void setDumpProgressCallback(const ProgressCallback &f) { _dumpProgressCallback = f; }
-
 private:
     void DumpExecutableInfo(BufferFmt &logsBufferFmt);
 
@@ -61,7 +54,7 @@ private:
 
     void DumpOffsetsInfo(BufferFmt &logsBufferFmt, BufferFmt &offsetsBufferFmt);
 
-    void GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt, UEPackagesArray &packages, const ProgressCallback &progressCallback);
+    void GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt, UEPackagesArray &packages);
 
-    void DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, UEPackagesArray &packages, const ProgressCallback &progressCallback);
+    void DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, UEPackagesArray &packages);
 };

@@ -17,7 +17,4 @@ file(GLOB UTILS_SRC src/Utils/*.cpp)
 include_directories(${DEPS_PATH} ${KITTYMEMORY_PATH})
 link_libraries(-llog)
 
-add_executable(UEDump3r_${CMAKE_ANDROID_ARCH} ${UE_SRC} ${UTILS_SRC} src/executable.cpp src/Dumper.cpp src/UPackageGenerator.cpp ${KITTYMEMORY_SRC} ${DEPS_PATH}/fmt/format.cc)
 add_library(shared_UEDump3r_${CMAKE_ANDROID_ARCH} SHARED ${UE_SRC} ${UTILS_SRC} src/library.cpp src/Dumper.cpp src/UPackageGenerator.cpp ${KITTYMEMORY_SRC} ${DEPS_PATH}/fmt/format.cc)
-
-target_compile_definitions(UEDump3r_${CMAKE_ANDROID_ARCH} PRIVATE kEXECUTABLE)

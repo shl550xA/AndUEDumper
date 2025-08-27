@@ -90,7 +90,7 @@ bool UEDumper::Dump(std::unordered_map<std::string, BufferFmt> *outBuffersMap)
     outBuffersMap->insert({"Objects.txt", BufferFmt()});
     BufferFmt &objsBufferFmt = outBuffersMap->at("Objects.txt");
     std::vector<std::pair<uint8_t *const, std::vector<UE_UObject>>> packages;
-    GatherUObjects(logsBufferFmt, objsBufferFmt, packages, _objectsProgressCallback);
+    GatherUObjects(logsBufferFmt, objsBufferFmt, packages);
 
     if (packages.empty())
     {
@@ -102,7 +102,7 @@ bool UEDumper::Dump(std::unordered_map<std::string, BufferFmt> *outBuffersMap)
 
     outBuffersMap->insert({"AIOHeader.hpp", BufferFmt()});
     BufferFmt &aioBufferFmt = outBuffersMap->at("AIOHeader.hpp");
-    DumpAIOHeader(logsBufferFmt, aioBufferFmt, packages, _dumpProgressCallback);
+    DumpAIOHeader(logsBufferFmt, aioBufferFmt, packages);
 
     dumper_jf_ns::base_address = _profile->GetUnrealELF().base();
     if (dumper_jf_ns::jsonFunctions.size())
@@ -246,7 +246,7 @@ void UEDumper::DumpOffsetsInfo(BufferFmt &logsBufferFmt, BufferFmt &offsetsBuffe
     offsetsBufferFmt.append("{}\n\n{}", _profile->GetOffsets()->ToString(), uEPointers.ToString());
 }
 
-void UEDumper::GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt, UEPackagesArray &packages, const ProgressCallback &progressCallback)
+void UEDumper::GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt, UEPackagesArray &packages)
 {
     logsBufferFmt.append("Gathering UObjects...\n");
 
@@ -265,9 +265,6 @@ void UEDumper::GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt
     }
 
     int objectsCount = UEWrappers::GetObjects()->GetNumElements();
-    SimpleProgressBar objectsProgress(objectsCount);
-    if (progressCallback)
-        progressCallback(objectsProgress);
 
     for (int i = 0; i < objectsCount; i++)
     {
@@ -295,17 +292,13 @@ void UEDumper::GatherUObjects(BufferFmt &logsBufferFmt, BufferFmt &objsBufferFmt
 
             objsBufferFmt.append("[{:010}]: {}\n", object.GetIndex(), object.GetFullName());
         }
-
-        objectsProgress++;
-        if (progressCallback)
-            progressCallback(objectsProgress);
     }
 
     logsBufferFmt.append("Gathered {} Objects (Packages {})\n", objectsCount, packages.size());
     logsBufferFmt.append("==========================\n");
 }
 
-void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, UEPackagesArray &packages, const ProgressCallback &progressCallback)
+void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, UEPackagesArray &packages)
 {
     int packages_saved = 0;
     std::string packages_unsaved{};
@@ -318,19 +311,11 @@ void UEDumper::DumpAIOHeader(BufferFmt &logsBufferFmt, BufferFmt &aioBufferFmt, 
 
     aioBufferFmt.append("#pragma once\n\n#include <cstdio>\n#include <string>\n#include <cstdint>\n\n\n");
 
-    SimpleProgressBar dumpProgress(int(packages.size()));
-    if (progressCallback)
-        progressCallback(dumpProgress);
-
     auto excludedObjects = _profile->GetExcludedObjects();
 
     for (UE_UPackage package : packages)
     {
         package.Process();
-
-        dumpProgress++;
-        if (progressCallback)
-            progressCallback(dumpProgress);
 
         if (package.Classes.size() || package.Structures.size() || package.Enums.size())
         {
