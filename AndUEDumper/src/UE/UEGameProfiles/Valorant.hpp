@@ -48,6 +48,15 @@ public:
     UE_Offsets *GetOffsets() const override
     {
         static UE_Offsets offsets = UE_DefaultOffsets::UE4_25_27(isUsingCasePreservingName());
+
+        static bool once = false;
+        if (!once)
+        {
+            once = true;
+
+            offsets.UFunction.Func = 0xE0;
+        }
+
         return &offsets;
     }
 };
