@@ -8,7 +8,6 @@ project.
 ## Features
 
 * Supported ABI ARM64, ARM, x86 and x86_64
-* Can be compiled as executable for external and as library for internal use
 * Dump UE offsets, classes, structs, enums and functions
 * Generate function names json script to use with IDA & Ghidra etc
 * Symbol and pattern scanning to find GUObjectArray, GNames and NamePoolData addresses automatically
@@ -21,29 +20,13 @@ project.
 * Delta Force Mobile
 * Farlight 84 Mobile
 * PUBG Mobile
+* Valorant Mobile
 
-## Library Usage
+## Usage
 
 Simply load or inject the library with whichever method and let it do it's thing.
 Run logcat with tag filter "UEDump3r" for dump logs.
-The dump output will be at the game's external data folder (/sdcard/Android/data/< game >/files) to avoid external storage permission.
-
-## Executable Usage
-
-You will have to push the dumper in an executable directory like /data/local/tmp then give it execute permission. Its recommended to have adb, you can check [push](AndUEDumper/push.bat) script for this.
-Use the compatible dumper, if game is 64bit use arm64 or x86_64, if 32bit then use arm or x86 version.
-
-```bash
-Usage: ./UEDump3r [-h] [-o] [ options ]
-
-Required arguments:
-   -o, --output        specify output directory path.
-
-Optional arguments:
-   -h, --help          show available arguments
-   -p, --package       specify game package ID in advance.
-   -d, --dumplib       dump UE library from memory.
-```
+The dump output will be at the game's external data folder (/sdcard/Android/data/\<game\>/files) to avoid external storage permission.
 
 ## Output Files
 
