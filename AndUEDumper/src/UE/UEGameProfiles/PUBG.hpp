@@ -42,17 +42,14 @@ public:
 
     uintptr_t GetGUObjectArrayPtr() const override
     {
-        std::string ida_pattern = "12 40 B9 ? 3E 40 B9 ? ? ? 6B ? ? ? 54 ? ? ? ? ? ? ? 91";
-        const int step = 0xf;
-
-        PATTERN_MAP_TYPE map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
-
-        return Arm64::Decode_ADRP_ADD(findIdaPattern(map_type, ida_pattern, step));
+        auto map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
+        return Arm64::Decode_ADRP_ADD(findIdaPattern(map_type, "12 40 b9 ? 3e 40 b9 ? ? ? 6b ? ? ? 54 ? ? ? ? ? ? ? 91", 15));
     }
 
     uintptr_t GetNameToStringPtr() const override
     {
-        return GetUEVars()->GetBaseAddress() + 0x9F546B8;
+        auto map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
+        return findIdaPattern(map_type, "f4 03 00 aa f3 03 08 aa ? ? ? 34 ? ? ? a9 e1 03 00 91", -5 * 4);
     }
 
     UE_Offsets *GetOffsets() const override

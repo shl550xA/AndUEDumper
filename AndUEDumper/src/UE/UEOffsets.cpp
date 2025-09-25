@@ -1,5 +1,6 @@
 #include "UEOffsets.hpp"
 
+#include <cstdint>
 #include <ostream>
 #include <ranges>
 #include <sstream>
@@ -7,6 +8,8 @@
 
 #include "UEMemory.hpp"
 using namespace UEMemory;
+
+#include "UEWrappers.hpp"
 
 #define kOUT_NEWLINE() oss << std::endl
 
@@ -466,11 +469,16 @@ namespace UE_DefaultOffsets
     }
 }  // namespace UE_DefaultOffsets
 
-std::string UEVars::NameToString(uint64_t name) const
+std::string UEVars::NameToString(UE_FName const &name) const
 {
+    // TODO
+    auto native_name = (uint64_t const *)name.object;
+
     static std::unordered_map<uint64_t, std::string> namesCachedMap;
-    if (namesCachedMap.count(name) > 0)
-        return namesCachedMap[name];
+    if (auto it = namesCachedMap.find(*native_name); it != namesCachedMap.end())
+    {
+        return it->second;
+    }
 
     struct string
     {
@@ -488,10 +496,10 @@ std::string UEVars::NameToString(uint64_t name) const
     { return c != (decltype(c)){}; };
     auto to_char = [](auto c)
     { return (char)c; };
-    std::string result{std::from_range, ((string(*)(uint64_t))NameToStringPtr)(name) | filter(not_zero) | transform(to_char)};
+    std::string result{std::from_range, ((string(*)(uint64_t const *))NameToStringPtr)(native_name) | filter(not_zero) | transform(to_char)};
     if (!result.empty())
     {
-        namesCachedMap[name] = result;
+        namesCachedMap[*native_name] = result;
     }
     return result;
 }

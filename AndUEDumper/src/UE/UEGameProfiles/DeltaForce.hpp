@@ -61,6 +61,12 @@ public:
 
     uintptr_t GetNameToStringPtr() const override
     {
+        auto map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
+        auto match = findIdaPattern(map_type, "f3 03 08 aa ? ? ? f9 09 04 40 b9 ? ? ? 35 ? ? ? ? ? ? ? 39", 0);
+        if (Arm64::Decode_ADRP_LDR(match + 4 * 4) != 0)
+        {
+            return match - 4 * 7;
+        }
         return 0;
     }
 

@@ -117,10 +117,9 @@ public:
 
 class UE_FName
 {
-protected:
+public:
     uint8_t *object;
 
-public:
     UE_FName(uint8_t *object) : object(object) {}
     UE_FName() : object(nullptr) {}
     std::string GetName() const;

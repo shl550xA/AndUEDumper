@@ -97,14 +97,6 @@ void dump_thread(bool bDumpLib)
         }
     });
 
-    uEDumper.setDumpNamesInfoNotify([](bool bFinished)
-    {
-        if (!bFinished)
-        {
-            LOGI("Dumping Names Info...");
-        }
-    });
-
     uEDumper.setDumpObjectsInfoNotify([](bool bFinished)
     {
         if (!bFinished)

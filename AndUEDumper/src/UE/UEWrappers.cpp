@@ -28,7 +28,7 @@ namespace UEWrappers
     UEVars const *GetUEVars() { return GUVars; }
     uintptr_t GetBaseAddress() { return GUVars ? GUVars->GetBaseAddress() : 0; }
     UE_Offsets *GetOffsets() { return GUVars ? GUVars->GetOffsets() : nullptr; }
-    std::string NameToString(uint64_t name) { return GUVars ? GUVars->NameToString(name) : ""; }
+    std::string NameToString(UE_FName const &name) { return GUVars ? GUVars->NameToString(name) : ""; }
     UE_UObjectArray *GetObjects() { return pObjectsArray.get(); }
 }  // namespace UEWrappers
 
@@ -116,15 +116,7 @@ std::string UE_FName::GetName() const
 {
     if (!object) return "None";
 
-    uintptr_t size = UEWrappers::GetOffsets()->FName.Size;
-    // if (UEWrappers::GetOffsets()->isUsingCasePreservingName)
-    //   nameID_offset = UEWrappers::GetOffsets()->FName.DisplayIndex;
-
-    uint64_t name = 0;
-    if (size != 8 || !vm_rpm_ptr(object, &name, size) || name == 0)
-        return "None";
-
-    std::string result = UEWrappers::NameToString(name);
+    std::string result = UEWrappers::NameToString(*this);
     if (result.empty()) return "None";
 
     auto pos = result.rfind('/');

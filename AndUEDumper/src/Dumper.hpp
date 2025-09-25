@@ -18,15 +18,13 @@ class UEDumper
     std::string _lastError;
     bool _dumpExeInfo = true;
     std::function<void(bool)> _dumpExeInfoNotify;
-    bool _dumpNamesInfo = true;
-    std::function<void(bool)> _dumpNamesInfoNotify;
     bool _dumpObjectsInfo = true;
     std::function<void(bool)> _dumpObjectsInfoNotify;
     bool _dumpOffsetsInfo = true;
     std::function<void(bool)> _dumpOffsetsInfoNotify;
 
 public:
-    UEDumper() : _profile(nullptr), _dumpExeInfoNotify(nullptr), _dumpNamesInfoNotify(nullptr), _dumpObjectsInfoNotify(nullptr) {}
+    UEDumper() : _profile(nullptr), _dumpExeInfoNotify(nullptr), _dumpObjectsInfoNotify(nullptr) {}
 
     bool Init(IGameProfile *profile);
 
@@ -38,8 +36,6 @@ public:
 
     void setDumpExeInfo(bool x) { _dumpExeInfo = x; }
     inline void setDumpExeInfoNotify(const std::function<void(bool)> &f) { _dumpExeInfoNotify = f; }
-    void setDumpNamesInfo(bool x) { _dumpNamesInfo = x; }
-    inline void setDumpNamesInfoNotify(const std::function<void(bool)> &f) { _dumpNamesInfoNotify = f; }
     void setDumpObjectsInfo(bool x) { _dumpObjectsInfo = x; }
     inline void setDumpObjectsInfoNotify(const std::function<void(bool)> &f) { _dumpObjectsInfoNotify = f; }
     void setDumpOffsetsInfo(bool x) { _dumpOffsetsInfo = x; }
@@ -47,8 +43,6 @@ public:
 
 private:
     void DumpExecutableInfo(BufferFmt &logsBufferFmt);
-
-    void DumpNamesInfo(BufferFmt &logsBufferFmt);
 
     void DumpObjectsInfo(BufferFmt &logsBufferFmt);
 

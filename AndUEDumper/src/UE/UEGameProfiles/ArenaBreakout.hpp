@@ -62,7 +62,8 @@ public:
 
     uintptr_t GetNameToStringPtr() const override
     {
-        return 0;
+        auto map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
+        return findIdaPattern(map_type, "f4 03 00 aa f3 03 08 aa ? ? ? f9 ? ? ? b9 ? ? ? 34 ? ? ? 91 e0 03 14 aa", -4 * 8);
     }
 
     UE_Offsets *GetOffsets() const override

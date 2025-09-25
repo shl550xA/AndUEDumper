@@ -64,13 +64,6 @@ bool UEDumper::Dump(std::unordered_map<std::string, BufferFmt> *outBuffersMap)
         if (_dumpExeInfoNotify) _dumpExeInfoNotify(true);
     }
 
-    if (_dumpNamesInfo)
-    {
-        if (_dumpNamesInfoNotify) _dumpNamesInfoNotify(false);
-        DumpNamesInfo(logsBufferFmt);
-        if (_dumpNamesInfoNotify) _dumpNamesInfoNotify(true);
-    }
-
     if (_dumpObjectsInfo)
     {
         if (_dumpObjectsInfoNotify) _dumpObjectsInfoNotify(false);
@@ -134,19 +127,6 @@ void UEDumper::DumpExecutableInfo(BufferFmt &logsBufferFmt)
 
     for (const auto &it : ue_elf.segments())
         logsBufferFmt.append("{}\n", it.toString());
-
-    logsBufferFmt.append("==========================\n");
-}
-
-void UEDumper::DumpNamesInfo(BufferFmt &logsBufferFmt)
-{
-    uintptr_t baseAddr = _profile->GetUEVars()->GetBaseAddress();
-
-    logsBufferFmt.append("Test dumping first 5 name entries\n");
-    for (int i = 0; i < 5; i++)
-    {
-        logsBufferFmt.append("GetNameByID({}): {}\n", i, _profile->GetUEVars()->NameToString(std::bit_cast<uint64_t>((int32_t[2]){i, 0})));
-    }
 
     logsBufferFmt.append("==========================\n");
 }

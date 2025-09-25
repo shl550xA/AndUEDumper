@@ -166,6 +166,8 @@ enum class UEVarsInitStatus : uint8_t
     ERROR_INIT_PTR_VALIDATOR,
 };
 
+struct UE_FName;
+
 struct UEVars
 {
     friend class IGameProfile;
@@ -196,7 +198,7 @@ public:
 
     UE_Offsets *GetOffsets() const { return Offsets; };
 
-    std::string NameToString(uint64_t name) const;
+    std::string NameToString(UE_FName const &) const;
 
     static std::string InitStatusToStr(UEVarsInitStatus s);
 };

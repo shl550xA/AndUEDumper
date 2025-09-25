@@ -60,7 +60,7 @@ public:
 
     uintptr_t GetNameToStringPtr() const override
     {
-        return 0;
+        return GetUEVars()->GetBaseAddress() + 0x8A11400;
     }
 
     UE_Offsets *GetOffsets() const override
