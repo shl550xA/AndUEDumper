@@ -40,18 +40,12 @@ namespace UEMemory
     }
 
     uintptr_t FindAlignedPointerRefrence(uintptr_t start, size_t range, uintptr_t ptr);
-    inline uintptr_t FindAlignedPointerRefrence(uintptr_t start, size_t range, const void *ptr)
-    {
-        return FindAlignedPointerRefrence(start, range, uintptr_t(ptr));
-    }
+    uintptr_t FindAlignedPointerRefrence(uintptr_t remoteBase, const std::vector<char> &buffer, uintptr_t ptr);
 
     namespace Arm64
     {
-        // adrp followed by add imm
-        uintptr_t Decode_ADRP_ADD(uintptr_t adrp_address, uint32_t add_offset = 4);
-
-        // adrp followed by ldr imm
-        uintptr_t Decode_ADRP_LDR(uintptr_t adrp_address, uint32_t ldr_offset = 4);
+        // adrp followed by imm instruction
+        uintptr_t DecodeADRL(uintptr_t adrp_address, uint32_t imm_insn_offset = 0);
     }  // namespace Arm64
 
 }  // namespace UEMemory

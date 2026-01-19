@@ -51,7 +51,7 @@ public:
             std::string ida_pattern = it.first;
             const int step = it.second;
 
-            uintptr_t adrl = Arm64::Decode_ADRP_ADD(findIdaPattern(map_type, ida_pattern, step));
+            uintptr_t adrl = Arm64::DecodeADRL(findIdaPattern(map_type, ida_pattern, step));
             if (adrl != 0) return adrl;
         }
 

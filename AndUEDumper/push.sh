@@ -14,5 +14,5 @@ adb shell "su -c 'chmod 755 /data/local/tmp/UEDump3r_x86'"
 adb push build/libs/x86_64/UEDump3r_x86_64 /data/local/tmp
 adb shell "su -c 'chmod 755 /data/local/tmp/UEDump3r_x86_64'"
 
-:: test on arm64 device
+# test on arm64 device
 adb shell "su -c './/data/local/tmp/UEDump3r_arm64 -o /sdcard'"

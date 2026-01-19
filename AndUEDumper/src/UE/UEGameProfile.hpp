@@ -5,6 +5,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <mutex>
+#include <array>
 
 #include "../Utils/Logger.hpp"
 
@@ -50,6 +52,8 @@ public:
     virtual bool isUsingOutlineNumberName() const = 0;
 
     virtual UE_Offsets *GetOffsets() const = 0;
+
+    virtual bool findProcessEvent(uint8_t *uObject, uintptr_t *pe_address_out, int *pe_index_out) const;
 
     // Exclude objects from dump, useful when trying to redefine structs/classes in UserTypes.hpp
     virtual std::vector<std::string> GetExcludedObjects() const;

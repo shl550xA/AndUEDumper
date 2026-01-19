@@ -44,7 +44,7 @@ public:
     uintptr_t GetGUObjectArrayPtr() const override
     {
         auto map_type = isEmulator() ? PATTERN_MAP_TYPE::ANY_R : PATTERN_MAP_TYPE::ANY_X;
-        return Arm64::Decode_ADRP_ADD(findIdaPattern(map_type, "12 40 b9 ? 3e 40 b9 ? ? ? 6b ? ? ? 54 ? ? ? ? ? ? ? 91", 15));
+        return Arm64::DecodeADRL(findIdaPattern(map_type, "12 40 b9 ? 3e 40 b9 ? ? ? 6b ? ? ? 54 ? ? ? ? ? ? ? 91", 15));
     }
 
     uintptr_t GetNameToStringPtr() const override

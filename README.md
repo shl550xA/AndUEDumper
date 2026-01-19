@@ -12,6 +12,7 @@ project.
 * Generate function names json script to use with IDA & Ghidra etc
 * Symbol and pattern scanning to find GUObjectArray, GNames and NamePoolData addresses automatically
 * Find GEngine and GWorld in Data segment
+* Find ProcessEvent index and offset (64bit only for now)
 * Dump UE library from memory
 
 ## Currently Supported Games
@@ -68,7 +69,6 @@ make clean && make
 
 ## TODO
 
-* Find ProcessEvent index & offset
 * Sort Generated Packages & Solve Dependencies
 * [Dumper-7](https://github.com/Encryqed/Dumper-7) Auto Find Offsets
 
