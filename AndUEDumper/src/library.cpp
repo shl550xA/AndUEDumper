@@ -19,6 +19,7 @@
 #include "UE/UEGameProfiles/Farlight.hpp"
 #include "UE/UEGameProfiles/PUBG.hpp"
 #include "UE/UEGameProfiles/Valorant.hpp"
+#include "UE/UEGameProfiles/WutheringWaves.hpp"
 
 std::vector<IGameProfile *> UE_Games = {
     new ArenaBreakoutProfile(),
@@ -26,6 +27,7 @@ std::vector<IGameProfile *> UE_Games = {
     new FarlightProfile(),
     new PUBGProfile(),
     new ValorantProfile(),
+    new WutheringWavesProfile(),
 };
 
 #define kUEDUMPER_VERSION "4.3.0"
